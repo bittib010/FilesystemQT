@@ -6,9 +6,8 @@ class FilesysGUI:
 
 
 filesystem = FilesystemScanner()
+files = filesystem.get_complete_scan()
+for key in files:
+    print(key, "->", files[key])
 
-filesystem.scanner_for_folders()
-filesystem.scanner_for_files()
-
-#print(filesystem.complete_scan())
 
