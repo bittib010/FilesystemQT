@@ -1,4 +1,5 @@
 from filesystemanalysis import *
+import os
 
 class FilesysGUI:
     def __init__(self):
@@ -7,7 +8,8 @@ class FilesysGUI:
 
 filesystem = FilesystemScanner()
 files = filesystem.get_complete_scan()
-for key in files:
-    print(key, "->", files[key])
+#for key in files:
+  # print(key, "->", files[key])
+
 
 
