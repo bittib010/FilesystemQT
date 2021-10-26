@@ -3,7 +3,7 @@ import hashlib
 from pathlib import Path
 from mydatabasemanagerfile import MyDatabaseManager
 
-path = "C:\\Users\\Skaft\\Desktop"
+path = "E:\\Blender"
 isFolder = True
 fullList = []
 currhash = ""
@@ -47,7 +47,8 @@ def file_hasher(hashing_file):
                 current_hash = hashlib.md5(readfile).hexdigest()
                 return current_hash
     except PermissionError:
-        return "Could not hash due to permission"
+        current_hash = "Could not hash due to permission"
+        return current_hash
 
 
 for (dirpath, dirnames, filenames) in os.walk(path):
@@ -61,7 +62,8 @@ for (dirpath, dirnames, filenames) in os.walk(path):
 
 my_current_db.initialize_db()
 for file_info in fullList:
-    my_current_db.insert_db_from_filescan(file_info[0], file_info[1], file_info[2])
+    #my_current_db.insert_db_from_filescan(file_info[0], file_info[1], file_info[2])
+    my_current_db.my_updater(file_info[0], file_info[1], file_info[2])
 
-    if my_current_db.update_db(file_info[0], file_info[1], file_info[2]) == False:
-        continue
+    #if my_current_db.update_db(file_info[0], file_info[1], file_info[2]) == False:
+        #continue

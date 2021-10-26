@@ -13,8 +13,8 @@ class MyDatabaseManager:
         """Function to open database, create if not exists"""
         print("Opened database successfully")
 
-        drop_if_exist = "DROP TABLE IF EXISTS {}".format(self.table_name)
-        self.conn.execute(drop_if_exist)
+        # drop_if_exist = "DROP TABLE IF EXISTS {}".format(self.table_name)
+        # self.cur.execute(drop_if_exist)
 
         create_table = '''CREATE TABLE IF NOT EXISTS {}
                 ("Path"	            TEXT NOT NULL,
@@ -29,7 +29,7 @@ class MyDatabaseManager:
         	    "Updated"           TEXT,
         	    "See also"          TEXT
         	    )'''.format(self.table_name)
-        self.conn.execute(create_table)
+        self.cur.execute(create_table)
         print("Table created successfully")
 
     def update_db(self, path, md5, isFolder):
@@ -44,9 +44,43 @@ class MyDatabaseManager:
             return False
         else:
             insert_into = '''INSERT INTO {} (Path,MD5,isFolder,Updated) VALUES(?, ?, ?, ?)'''.format(self.table_name)
-            self.conn.execute(insert_into, (path, md5, isFolder, update_date))
+            self.cur.execute(insert_into, (path, md5, isFolder, update_date))
             self.conn.commit()
             print("Updated")
+
+    def find_parent_id(self, path):
+        '''
+
+        :return:
+        '''
+        query = '''SELECT Path FROM {} WHERE Path = {}'''.format(self.table_name, path)
+
+    def my_updater(self, path, md5, isFolder):
+        query_path = '''SELECT rowid, Path FROM {} WHERE Path = "{}"'''.format(self.table_name, path)
+
+        #result_hash = ""
+        if self.conn.execute(query_path).fetchone() is None:  # Test if returns None.
+            result_path = "Please add me"  # Placeholder to specify that it needs to be inserted, it does not exist
+            result_hash = "Please add me"
+        else:
+
+            result_path = self.conn.execute(query_path).fetchone()[1]
+            rowid = self.conn.execute(query_path).fetchone()[0]
+            query_hash = '''SELECT MD5 FROM {} WHERE rowid = "{}"'''.format(self.table_name, rowid)
+
+            result_hash = self.conn.execute(query_hash).fetchone()[0]
+        current_time = datetime.datetime.now()
+
+        if path == result_path and md5 != result_hash:
+            query = '''UPDATE {} SET MD5=?, Updated=? WHERE rowid = "{}"'''.format(self.table_name, rowid)
+            self.cur.execute(query, (md5, current_time))
+        elif path != result_path:
+            query = '''INSERT INTO {} (Path, MD5, isFolder, Updated) VALUES (?, ?, ?, ?)'''.format(self.table_name)
+            self.cur.execute(query, (path, md5, isFolder, current_time))
+        else:
+            print("Path: ", path, "\n", "result_path: ", result_path, "\n", "md5      : ",md5, "\n", "result_hash: ", result_hash, "\n")
+
+        self.conn.commit()
 
     def insert_db_from_filescan(self, path, md5, isFolder):
         init_date = datetime.datetime.now()
@@ -54,5 +88,3 @@ class MyDatabaseManager:
         self.conn.execute(insert_into, (path, md5, isFolder, init_date))
         self.conn.commit()
 
-    def find_rowid(self):
-        query = '''SELECT rowid, WHERE {} '''
