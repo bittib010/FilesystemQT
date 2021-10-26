@@ -61,6 +61,7 @@ for (dirpath, dirnames, filenames) in os.walk(path):
 
 my_current_db.initialize_db()
 for file_info in fullList:
-    #my_current_db.insert_db_from_filescan(file_info[0], file_info[1], file_info[2])
-    #print(file_info)
-    my_current_db.update_db(file_info[0], file_info[1], file_info[2])
+    my_current_db.insert_db_from_filescan(file_info[0], file_info[1], file_info[2])
+
+    if my_current_db.update_db(file_info[0], file_info[1], file_info[2]) == False:
+        continue
