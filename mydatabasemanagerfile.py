@@ -13,12 +13,11 @@ class MyDatabaseManager:
         """Function to open database, create if not exists"""
         print("Opened database successfully")
 
-        #drop_if_exist = "DROP TABLE IF EXISTS {}".format(self.table_name)
-        #self.conn.execute(drop_if_exist)
+        drop_if_exist = "DROP TABLE IF EXISTS {}".format(self.table_name)
+        self.conn.execute(drop_if_exist)
 
         create_table = '''CREATE TABLE IF NOT EXISTS {}
-                ("Node"	            INTEGER,
-        	    "Path"	            TEXT NOT NULL,
+                ("Path"	            TEXT NOT NULL,
         	    "Beginner Info"	    TEXT,
         	    "Intermediate Info"	TEXT,
         	    "Advanced Info"	    TEXT,
@@ -27,8 +26,6 @@ class MyDatabaseManager:
         	    "isFolder"	        INTEGER,
         	    "fileExt"           TEXT,
         	    "MD5"               TEXT,
-        	    "Modified"          TEXT,
-        	    "Created"           TEXT,
         	    "Updated"           TEXT,
         	    "See also"          TEXT
         	    )'''.format(self.table_name)
@@ -37,12 +34,14 @@ class MyDatabaseManager:
 
     def update_db(self, path, md5, isFolder):
         query = '''SELECT Path FROM {} WHERE Path = "{}"'''.format(self.table_name, path)
-        result = self.conn.execute(query).fetchall()
-        print(result)
+        result = self.conn.execute(query).fetchone()
+        print(str(result[0]), "             ", path)
         update_date = datetime.datetime.now()
         if path == result:
             # And check inside if hash has changed. Then need to update modified date.
-            hash_query = "id"
+            hash_query = '''SELECT MD5 FROM {} WHERE MD5 = "{}"'''
+            print("Not updated")
+            return False
         else:
             insert_into = '''INSERT INTO {} (Path,MD5,isFolder,Updated) VALUES(?, ?, ?, ?)'''.format(self.table_name)
             self.conn.execute(insert_into, (path, md5, isFolder, update_date))
@@ -51,7 +50,7 @@ class MyDatabaseManager:
 
     def insert_db_from_filescan(self, path, md5, isFolder):
         init_date = datetime.datetime.now()
-        insert_into = '''INSERT INTO {} (Path,MD5,isFolder,Created) VALUES(?, ?, ?, ?)'''.format(self.table_name)
+        insert_into = '''INSERT INTO {} (Path,MD5,isFolder,Updated) VALUES(?, ?, ?, ?)'''.format(self.table_name)
         self.conn.execute(insert_into, (path, md5, isFolder, init_date))
         self.conn.commit()
 
