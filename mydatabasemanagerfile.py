@@ -18,9 +18,7 @@ class MyDatabaseManager:
 
         create_table = '''CREATE TABLE IF NOT EXISTS {}
                 ("Path"	            TEXT NOT NULL,
-        	    "Beginner Info"	    TEXT,
-        	    "Intermediate Info"	TEXT,
-        	    "Advanced Info"	    TEXT,
+        	    "Information"	    TEXT,
         	    "Tags"	            TEXT,
         	    "Parent"	        INTEGER,
         	    "isFolder"	        INTEGER,
@@ -48,17 +46,10 @@ class MyDatabaseManager:
             self.conn.commit()
             print("Updated")
 
-    def find_parent_id(self, path):
-        '''
-
-        :return:
-        '''
-        query = '''SELECT Path FROM {} WHERE Path = {}'''.format(self.table_name, path)
-
     def my_updater(self, path, md5, isFolder):
         query_path = '''SELECT rowid, Path FROM {} WHERE Path = "{}"'''.format(self.table_name, path)
 
-        #result_hash = ""
+        # result_hash = ""
         if self.conn.execute(query_path).fetchone() is None:  # Test if returns None.
             result_path = "Please add me"  # Placeholder to specify that it needs to be inserted, it does not exist
             result_hash = "Please add me"
@@ -78,8 +69,9 @@ class MyDatabaseManager:
             query = '''INSERT INTO {} (Path, MD5, isFolder, Updated) VALUES (?, ?, ?, ?)'''.format(self.table_name)
             self.cur.execute(query, (path, md5, isFolder, current_time))
         else:
-            print("Path: ", path, "\n", "result_path: ", result_path, "\n", "md5      : ",md5, "\n", "result_hash: ", result_hash, "\n")
-
+            #print("Path: ", path, "\n", "result_path: ", result_path, "\n", "md5      : ", md5, "\n", "result_hash: ",
+            #      result_hash, "\n")
+            pass
         self.conn.commit()
 
     def insert_db_from_filescan(self, path, md5, isFolder):
@@ -88,3 +80,29 @@ class MyDatabaseManager:
         self.conn.execute(insert_into, (path, md5, isFolder, init_date))
         self.conn.commit()
 
+
+    def inserting_parentID(self):
+        query = '''SELECT rowid, Path FROM {}'''.format(self.table_name)
+        all_paths = self.cur.execute(query).fetchall()
+
+        for rowid, path in all_paths:
+            parent_path_split = path.split("\\")
+            if rowid == 1:
+                continue
+            if path[-1] == "\\":
+                parent_path_joined = "\\".join(parent_path_split[:-2]) + "\\"
+                parent_path_joinedads = "\\".join(parent_path_split[:-2]) + "\\"
+            else:
+                parent_path_joined = "\\".join(parent_path_split[:-1]) + "\\"
+
+            parent_query = '''SELECT rowid FROM {} WHERE Path = "{}"'''.format(self.table_name, parent_path_joined)
+            parent_paths = self.cur.execute(parent_query).fetchone()
+
+            update_parentID = '''UPDATE {} SET Parent=? WHERE rowid = "{}"'''.format(self.table_name, rowid)
+            self.cur.execute(update_parentID, (parent_paths))
+            self.conn.commit()
+
+
+
+    def close_db(self):
+        self.conn.close()
