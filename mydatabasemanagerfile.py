@@ -1,5 +1,6 @@
 import sqlite3
 import datetime
+import pathlib
 
 
 class MyDatabaseManager:
@@ -100,6 +101,18 @@ class MyDatabaseManager:
 
             update_parentID = '''UPDATE {} SET Parent=? WHERE rowid = "{}"'''.format(self.table_name, rowid)
             self.cur.execute(update_parentID, (parent_paths))
+            self.conn.commit()
+
+    def inserting_suffix(self):
+        query = '''SELECT rowid, Path FROM {}'''.format(self.table_name)
+        all_paths = self.cur.execute(query).fetchall()
+
+        for rowid, path in all_paths:
+            ext = pathlib.Path(path).suffix
+            if ext == "":
+                continue
+            update_ext_query = '''UPDATE {} SET fileExt=? WHERE rowid = "{}"'''.format(self.table_name, rowid)
+            self.cur.execute(update_ext_query, (ext,))
             self.conn.commit()
 
 

@@ -65,6 +65,7 @@ for file_info in fullList:
     my_current_db.my_updater(file_info[0], file_info[1], file_info[2])
 
 my_current_db.inserting_parentID()
+my_current_db.inserting_suffix()
 my_current_db.close_db()
 
 
