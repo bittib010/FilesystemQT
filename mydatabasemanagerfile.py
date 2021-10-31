@@ -31,26 +31,10 @@ class MyDatabaseManager:
         self.cur.execute(create_table)
         print("Table created successfully")
 
-    def update_db(self, path, md5, isFolder):
-        query = '''SELECT Path FROM {} WHERE Path = "{}"'''.format(self.table_name, path)
-        result = self.conn.execute(query).fetchone()
-        print(str(result[0]), "             ", path)
-        update_date = datetime.datetime.now()
-        if path == result:
-            # And check inside if hash has changed. Then need to update modified date.
-            hash_query = '''SELECT MD5 FROM {} WHERE MD5 = "{}"'''
-            print("Not updated")
-            return False
-        else:
-            insert_into = '''INSERT INTO {} (Path,MD5,isFolder,Updated) VALUES(?, ?, ?, ?)'''.format(self.table_name)
-            self.cur.execute(insert_into, (path, md5, isFolder, update_date))
-            self.conn.commit()
-            print("Updated")
-
     def my_updater(self, path, md5, isFolder):
         query_path = '''SELECT rowid, Path FROM {} WHERE Path = "{}"'''.format(self.table_name, path)
 
-        # result_hash = ""
+
         if self.conn.execute(query_path).fetchone() is None:  # Test if returns None.
             result_path = "Please add me"  # Placeholder to specify that it needs to be inserted, it does not exist
             result_hash = "Please add me"
@@ -70,17 +54,10 @@ class MyDatabaseManager:
             query = '''INSERT INTO {} (Path, MD5, isFolder, Updated) VALUES (?, ?, ?, ?)'''.format(self.table_name)
             self.cur.execute(query, (path, md5, isFolder, current_time))
         else:
-            #print("Path: ", path, "\n", "result_path: ", result_path, "\n", "md5      : ", md5, "\n", "result_hash: ",
-            #      result_hash, "\n")
+            print("Path: ", path, "\n", "result_path: ", result_path, "\n", "md5      : ", md5, "\n", "result_hash: ",
+                  result_hash, "\n")
             pass
         self.conn.commit()
-
-    def insert_db_from_filescan(self, path, md5, isFolder):
-        init_date = datetime.datetime.now()
-        insert_into = '''INSERT INTO {} (Path,MD5,isFolder,Updated) VALUES(?, ?, ?, ?)'''.format(self.table_name)
-        self.conn.execute(insert_into, (path, md5, isFolder, init_date))
-        self.conn.commit()
-
 
     def inserting_parentID(self):
         query = '''SELECT rowid, Path FROM {}'''.format(self.table_name)
