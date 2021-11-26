@@ -69,7 +69,6 @@ class MyDatabaseManager:
                 continue
             if path[-1] == "\\":
                 parent_path_joined = "\\".join(parent_path_split[:-2]) + "\\"
-                parent_path_joinedads = "\\".join(parent_path_split[:-2]) + "\\"
             else:
                 parent_path_joined = "\\".join(parent_path_split[:-1]) + "\\"
 

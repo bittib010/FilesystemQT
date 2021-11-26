@@ -43,7 +43,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="Filetree">
        <attribute name="title">
@@ -130,16 +130,6 @@
           </property>
          </widget>
         </widget>
-        <widget class="QWidget" name="intermediate">
-         <attribute name="title">
-          <string>Intermediate info</string>
-         </attribute>
-        </widget>
-        <widget class="QWidget" name="advanced">
-         <attribute name="title">
-          <string>Advanced info</string>
-         </attribute>
-        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="FilesystemHex">
@@ -174,6 +164,80 @@
           <width>69</width>
           <height>22</height>
          </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Registry</string>
+       </attribute>
+       <widget class="QTreeWidget" name="treeWidget_6">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>40</y>
+          <width>301</width>
+          <height>741</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QTabWidget" name="tabWidget_11">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>10</y>
+          <width>781</width>
+          <height>781</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="beginner_6">
+         <attribute name="title">
+          <string>Beginners info</string>
+         </attribute>
+         <widget class="QTextEdit" name="textEdit_6">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>661</width>
+            <height>751</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_6">
+          <property name="geometry">
+           <rect>
+            <x>680</x>
+            <y>160</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Update DB</string>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="QScrollBar" name="verticalScrollBar_7">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>40</y>
+          <width>20</width>
+          <height>741</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
        </widget>
       </widget>
@@ -279,16 +343,6 @@
            <string>Update DB</string>
           </property>
          </widget>
-        </widget>
-        <widget class="QWidget" name="intermediate_2">
-         <attribute name="title">
-          <string>Intermediate info</string>
-         </attribute>
-        </widget>
-        <widget class="QWidget" name="advanced_2">
-         <attribute name="title">
-          <string>Advanced info</string>
-         </attribute>
         </widget>
        </widget>
       </widget>
@@ -430,16 +484,6 @@
           </property>
          </widget>
         </widget>
-        <widget class="QWidget" name="intermediate_3">
-         <attribute name="title">
-          <string>Intermediate info</string>
-         </attribute>
-        </widget>
-        <widget class="QWidget" name="advanced_3">
-         <attribute name="title">
-          <string>Advanced info</string>
-         </attribute>
-        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="FilesystemHex_3">
@@ -580,16 +624,6 @@
           </property>
          </widget>
         </widget>
-        <widget class="QWidget" name="intermediate_4">
-         <attribute name="title">
-          <string>Intermediate info</string>
-         </attribute>
-        </widget>
-        <widget class="QWidget" name="advanced_4">
-         <attribute name="title">
-          <string>Advanced info</string>
-         </attribute>
-        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="FilesystemHex_4">
@@ -704,7 +738,7 @@
         </property>
         <widget class="QWidget" name="beginner_5">
          <attribute name="title">
-          <string>Beginners info</string>
+          <string>Information</string>
          </attribute>
          <widget class="QTextEdit" name="textEdit_5">
           <property name="geometry">
@@ -729,16 +763,6 @@
            <string>Update DB</string>
           </property>
          </widget>
-        </widget>
-        <widget class="QWidget" name="intermediate_5">
-         <attribute name="title">
-          <string>Intermediate info</string>
-         </attribute>
-        </widget>
-        <widget class="QWidget" name="advanced_5">
-         <attribute name="title">
-          <string>Advanced info</string>
-         </attribute>
         </widget>
        </widget>
       </widget>
@@ -769,9 +793,9 @@
        <widget class="QComboBox" name="comboBox_5">
         <property name="geometry">
          <rect>
-          <x>60</x>
-          <y>20</y>
-          <width>69</width>
+          <x>328</x>
+          <y>30</y>
+          <width>151</width>
           <height>22</height>
          </rect>
         </property>
@@ -787,9 +811,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
+        <y>20</y>
         <width>341</width>
-        <height>771</height>
+        <height>761</height>
        </rect>
       </property>
      </widget>
@@ -823,9 +847,9 @@
       <property name="geometry">
        <rect>
         <x>380</x>
-        <y>10</y>
+        <y>20</y>
         <width>711</width>
-        <height>771</height>
+        <height>761</height>
        </rect>
       </property>
      </widget>
