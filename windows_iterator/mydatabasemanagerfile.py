@@ -23,10 +23,9 @@ class MyDatabaseManager:
         	    "Tags"	            TEXT,
         	    "Parent"	        INTEGER,
         	    "isFolder"	        INTEGER,
-        	    "fileExt"           TEXT,
-        	    "MD5"               TEXT,
-        	    "Updated"           TEXT,
-        	    "See also"          TEXT
+        	    "miniHash"          TEXT,
+        	    "UpdateComment"     TEXT,
+        	    "References"        TEXT
         	    )'''.format(self.table_name)
         self.cur.execute(create_table)
         print("Table created successfully")
